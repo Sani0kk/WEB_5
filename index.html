@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор надійності систем електропередачі</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор надійності систем електропередачі</h1>
+        
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('reliability')">Порівняння надійності</button>
+            <button class="tab-button" onclick="openTab('damages')">Розрахунок збитків</button>
+        </div>
+        
+        <!-- Порівняння надійності -->
+        <div id="reliability" class="tab-content active">
+            <h2>Порівняння надійності одноколової та двоколової систем</h2>
+            
+            <div class="input-section">
+                <h3>Параметри одноколової системи:</h3>
+                
+                <div class="input-group">
+                    <label for="breaker-freq">Частота відмов вимикача 110 кВ (рік⁻¹):</label>
+                    <input type="number" id="breaker-freq" step="0.001" min="0" value="0.01">
+                </div>
+                
+                <div class="input-group">
+                    <label for="line-freq">Частота відмов ПЛ-110 кВ (рік⁻¹ на 1 км):</label>
+                    <input type="number" id="line-freq" step="0.001" min="0" value="0.007">
+                </div>
+                
+                <div class="input-group">
+                    <label for="line-length">Довжина ПЛ-110 кВ (км):</label>
+                    <input type="number" id="line-length" step="0.1" min="0" value="10">
+                </div>
+                
+                <div class="input-group">
+                    <label for="transformer-freq">Частота відмов трансформатора 110/10 кВ (рік⁻¹):</label>
+                    <input type="number" id="transformer-freq" step="0.001" min="0" value="0.015">
+                </div>
+                
+                <div class="input-group">
+                    <label for="input-breaker-freq">Частота відмов ввідного вимикача 10 кВ (рік⁻¹):</label>
+                    <input type="number" id="input-breaker-freq" step="0.001" min="0" value="0.02">
+                </div>
+                
+                <div class="input-group">
+                    <label for="connections-freq">Частота відмов одного приєднання 10 кВ (рік⁻¹):</label>
+                    <input type="number" id="connections-freq" step="0.001" min="0" value="0.03">
+                </div>
+                
+                <div class="input-group">
+                    <label for="connections-count">Кількість приєднань 10 кВ:</label>
+                    <input type="number" id="connections-count" min="0" value="6">
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <h3>Параметри двоколової системи:</h3>
+                
+                <div class="input-group">
+                    <label for="section-breaker-freq">Частота відмов секційного вимикача 10 кВ (рік⁻¹):</label>
+                    <input type="number" id="section-breaker-freq" step="0.001" min="0" value="0.02">
+                </div>
+            </div>
+            
+            <button onclick="compareReliability()">Порівняти надійність</button>
+            <div id="reliability-result" class="result"></div>
+        </div>
+        
+        <!-- Розрахунок збитків -->
+        <div id="damages" class="tab-content">
+            <h2>Розрахунок збитків від перерв електропостачання</h2>
+            
+            <div class="input-group">
+                <label for="transformer-failure-rate">Частота відмов трансформатора (рік⁻¹):</label>
+                <input type="number" id="transformer-failure-rate" step="0.001" min="0" value="0.01">
+            </div>
+            
+            <div class="input-group">
+                <label for="repair-time">Середній час відновлення (год):</label>
+                <input type="number" id="repair-time" step="0.1" min="0" value="45">
+            </div>
+            
+            <div class="input-group">
+                <label for="planned-outage-coeff">Коефіцієнт планового простою:</label>
+                <input type="number" id="planned-outage-coeff" step="0.0001" min="0" value="0.004">
+            </div>
+            
+            <div class="input-group">
+                <label for="max-load">Максимальне навантаження, кВт:</label>
+                <input type="number" id="max-load" step="0.1" min="0" value="5120">
+            </div>
+            
+            <div class="input-group">
+                <label for="usage-hours">Час використання максимального навантаження, год:</label>
+                <input type="number" id="usage-hours" min="0" value="6451">
+            </div>
+            
+            <div class="input-group">
+                <label for="emergency-damage">Питомі збитки від аварійних вимкнень (грн/кВт·год):</label>
+                <input type="number" id="emergency-damage" step="0.1" min="0" value="23.6">
+            </div>
+            
+            <div class="input-group">
+                <label for="planned-damage">Питомі збитки від планових вимкнень (грн/кВт·год):</label>
+                <input type="number" id="planned-damage" step="0.1" min="0" value="17.6">
+            </div>
+            
+            <button onclick="calculateDamages()">Розрахувати збитки</button>
+            <div id="damages-result" class="result"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
